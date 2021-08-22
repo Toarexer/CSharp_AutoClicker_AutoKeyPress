@@ -1,0 +1,30 @@
+C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\bin\x64\Debug\AutoClicker.exe.config
+C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\bin\x64\Debug\AutoClicker.exe
+C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\bin\x64\Debug\AutoClicker.pdb
+C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\bin\x64\Debug\System.Diagnostics.DiagnosticSource.dll
+C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\bin\x64\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.csproj.AssemblyReference.cache
+C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.Properties.Resources.resources
+C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.csproj.GenerateResource.cache
+C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.csproj.CoreCompileInputs.cache
+C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.csproj.CopyComplete
+C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.exe
+C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.pdb
+C:\Visual Studio Projects\C#\AutoClicker_backup\AutoClicker\bin\x64\Debug\AutoClicker.exe.config
+C:\Visual Studio Projects\C#\AutoClicker_backup\AutoClicker\bin\x64\Debug\AutoClicker.exe
+C:\Visual Studio Projects\C#\AutoClicker_backup\AutoClicker\bin\x64\Debug\AutoClicker.pdb
+C:\Visual Studio Projects\C#\AutoClicker_backup\AutoClicker\obj\x64\Debug\AutoClicker.csproj.AssemblyReference.cache
+C:\Visual Studio Projects\C#\AutoClicker_backup\AutoClicker\obj\x64\Debug\AutoClicker.Properties.Resources.resources
+C:\Visual Studio Projects\C#\AutoClicker_backup\AutoClicker\obj\x64\Debug\AutoClicker.csproj.GenerateResource.cache
+C:\Visual Studio Projects\C#\AutoClicker_backup\AutoClicker\obj\x64\Debug\AutoClicker.csproj.CoreCompileInputs.cache
+C:\Visual Studio Projects\C#\AutoClicker_backup\AutoClicker\obj\x64\Debug\AutoClicker.exe
+C:\Visual Studio Projects\C#\AutoClicker_backup\AutoClicker\obj\x64\Debug\AutoClicker.pdb
+C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\bin\x64\Debug\AutoClicker.exe.config
+C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\bin\x64\Debug\AutoClicker.exe
+C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\bin\x64\Debug\AutoClicker.pdb
+C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.csproj.AssemblyReference.cache
+C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.Properties.Resources.resources
+C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.csproj.GenerateResource.cache
+C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.csproj.CoreCompileInputs.cache
+C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.exe
+C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.pdb

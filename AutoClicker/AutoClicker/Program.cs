@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -14,25 +16,36 @@ namespace AutoClicker
         public static VirtualKeys KeyToSend = VirtualKeys.VK_LBUTTON;
         public static VirtualKeys KeyToScan = VirtualKeys.VK_END;
         public static bool suspendClickingThread = true;
+        public const string tempFolder = @"C:\Windows\Temp\";
+        public const string dllName = "AutoClicker.simInputLib.dll";
 
         // External funtions
         [DllImport("user32.dll")]
-        public static extern IntPtr GetForegroundWindow();
+        static extern IntPtr GetForegroundWindow();
 
         [DllImport("user32.dll")]
-        public static extern short GetAsyncKeyState(int vKey);
+        static extern short GetAsyncKeyState(int vKey);
 
         [DllImport("user32.dll")]
-        public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, uint dwExtraInfo);
+        static extern void GetKeyboardState(byte[] lpKeyState);
 
         [DllImport("user32.dll")]
-        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
+        static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpKeyState, [Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)] char[] pwszBuff, int cchBuff, uint wFlags);
+        // help from https://stackoverflow.com/questions/6929275/how-to-convert-a-virtual-key-code-to-a-character-according-to-the-current-keyboa
 
-        [DllImport("user32.dll")]
-        public static extern uint MapVirtualKeyA(uint uCode, uint uMapType);
+        [DllImport(tempFolder + dllName)]
+        static extern void test();
+
+        [DllImport(tempFolder + dllName)]
+        static extern void keyboardKeyPress(byte virtualKey, uint timeMs);
+
+        [DllImport(tempFolder + dllName)]
+        static extern void mouseInput(long x, long y, ulong dwFlags, ulong mouseData);
 
         static void IOThread()
         {
+            byte[] keyState = new byte[256];
+            char[] str = { '\0' };
             while (true)
             {
                 do
@@ -43,30 +56,32 @@ namespace AutoClicker
                         suspendClickingThread = !suspendClickingThread;
                 } while (suspendClickingThread || targetProcess == null || targetProcess.MainWindowHandle != GetForegroundWindow());
 
-                void createMouseEvent(MouseEvents dwFlags)
+                void createMouseEvent(MouseEvents dwFlagDown, MouseEvents dwFlagUp, uint dwData = 0)
                 {
-                    mouse_event((uint)dwFlags, (uint)Cursor.Position.X, (uint)Cursor.Position.Y, 0, 0);
+                    mouseInput(Cursor.Position.X, Cursor.Position.Y, (uint)dwFlagDown, dwData);
+                    Thread.Sleep(1);
+                    mouseInput(Cursor.Position.X, Cursor.Position.Y, (uint)dwFlagUp, dwData);
                 }
 
                 switch (KeyToSend)
                 {
                     case VirtualKeys.VK_LBUTTON:
-                        createMouseEvent(MouseEvents.MOUSEEVENTF_LEFTDOWN | MouseEvents.MOUSEEVENTF_LEFTUP);
+                        createMouseEvent(MouseEvents.MOUSEEVENTF_LEFTDOWN, MouseEvents.MOUSEEVENTF_LEFTUP);
                         break;
                     case VirtualKeys.VK_RBUTTON:
-                        createMouseEvent(MouseEvents.MOUSEEVENTF_RIGHTDOWN | MouseEvents.MOUSEEVENTF_RIGHTUP);
+                        createMouseEvent(MouseEvents.MOUSEEVENTF_RIGHTDOWN, MouseEvents.MOUSEEVENTF_RIGHTUP);
                         break;
                     case VirtualKeys.VK_MBUTTON:
-                        createMouseEvent(MouseEvents.MOUSEEVENTF_MIDDLEDOWN | MouseEvents.MOUSEEVENTF_MIDDLEUP);
+                        createMouseEvent(MouseEvents.MOUSEEVENTF_MIDDLEDOWN, MouseEvents.MOUSEEVENTF_MIDDLEUP);
                         break;
                     case VirtualKeys.VK_XBUTTON1:
-                        createMouseEvent(MouseEvents.MOUSEEVENTF_XDOWN | MouseEvents.MOUSEEVENTF_XUP);
+                        createMouseEvent(MouseEvents.MOUSEEVENTF_XDOWN, MouseEvents.MOUSEEVENTF_XUP, 1);
                         break;
-                    case VirtualKeys.VK_XBUTTON2:   // same as VK_XBUTTON1
-                        createMouseEvent(MouseEvents.MOUSEEVENTF_XDOWN | MouseEvents.MOUSEEVENTF_XUP);
+                    case VirtualKeys.VK_XBUTTON2:
+                        createMouseEvent(MouseEvents.MOUSEEVENTF_XDOWN, MouseEvents.MOUSEEVENTF_XUP, 2);
                         break;
                     default:
-                        keybd_event((byte)KeyToSend, (byte)MapVirtualKeyA((uint)KeyToSend, 0), (uint)KeyEvents.KEYEVENTF_EXTENDEDKEY, 0);
+                        keyboardKeyPress((byte)KeyToSend, 1);
                         break;
                 }
             }
@@ -75,6 +90,8 @@ namespace AutoClicker
         [STAThread]
         static void Main()
         {
+            ExtractEmbeddedDLL();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             appForm = new AppForm();
@@ -84,6 +101,21 @@ namespace AutoClicker
             clickingThread.Start();
 
             Application.Run(appForm);
+
+            clickingThread.Abort();
+        }
+
+        static void ExtractEmbeddedDLL()
+        {
+            Assembly assembly = Assembly.GetCallingAssembly();
+            Stream stream = assembly.GetManifestResourceStream(dllName);
+            BinaryReader br = new BinaryReader(stream);
+
+            FileStream fs = new FileStream(tempFolder + dllName, FileMode.OpenOrCreate);
+            BinaryWriter bw = new BinaryWriter(fs);
+            bw.Write(br.ReadBytes((int)stream.Length));
+            bw.Close();
+            fs.Close();
         }
     }
 }

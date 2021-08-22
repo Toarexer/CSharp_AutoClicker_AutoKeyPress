@@ -1,9 +1,0 @@
-C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\Debug\AutoClicker.Properties.Resources.resources
-C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\Debug\AutoClicker.csproj.GenerateResource.cache
-C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\Debug\AutoClicker.csproj.CoreCompileInputs.cache
-C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\bin\Debug\AutoClicker.exe.config
-C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\bin\Debug\AutoClicker.exe
-C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\bin\Debug\AutoClicker.pdb
-C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\Debug\AutoClicker.exe
-C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\Debug\AutoClicker.pdb
-C:\Visual Studio Projects\C#\AutoClicker\AutoClicker\obj\Debug\AutoClicker.csproj.AssemblyReference.cache

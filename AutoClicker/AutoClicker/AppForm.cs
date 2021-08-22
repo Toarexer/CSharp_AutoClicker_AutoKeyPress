@@ -112,7 +112,7 @@ namespace AutoClicker
             keyToScanComboBox.SelectedIndexChanged += (s, e) => Program.KeyToScan = (VirtualKeys)Enum.Parse(typeof(VirtualKeys), ((ComboBox)s).Text.Split(' ')[1]);
             keyToScanComboBox.Name = "ktscan";
 
-            foreach (int value in Enum.GetValues(typeof(VirtualKeys)))
+            foreach (byte value in Enum.GetValues(typeof(VirtualKeys)))
             {
                 string name = Enum.GetName(typeof(VirtualKeys), value);
                 acsc.Add(name);

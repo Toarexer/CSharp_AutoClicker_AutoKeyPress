@@ -1,6 +1,6 @@
 ﻿namespace AutoClicker
 {
-    enum VirtualKeys
+    enum VirtualKeys : byte
     {
         VK_LBUTTON = 0x01,
         VK_RBUTTON = 0x02,
@@ -200,7 +200,7 @@
         VK_OEM_CLEAR = 0xFE
     }
 
-    enum MouseEvents
+    enum MouseEvents : short
     {
         MOUSEEVENTF_MOVE = 0x0001,
         MOUSEEVENTF_LEFTDOWN = 0x0002,
@@ -212,11 +212,5 @@
         MOUSEEVENTF_XDOWN = 0x0080,
         MOUSEEVENTF_XUP = 0x0100,
         MOUSEEVENTF_WHEEL = 0x0800
-    }
-
-    enum KeyEvents
-    {
-        KEYEVENTF_EXTENDEDKEY = 0x01,
-        KEYEVENTF_KEYUP = 0x02
     }
 }
