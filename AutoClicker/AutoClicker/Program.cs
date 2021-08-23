@@ -16,32 +16,15 @@ namespace AutoClicker
         public static VirtualKeys KeyToSend = VirtualKeys.VK_LBUTTON;
         public static VirtualKeys KeyToScan = VirtualKeys.VK_END;
         public static bool suspendClickingThread = true;
-        public const string tempFolder = @"C:\Windows\Temp\";
+        public static IntPtr dllModule;
         public const string dllName = "AutoClicker.simInputLib.dll";
 
-        // External funtions
-        [DllImport("user32.dll")]
-        static extern IntPtr GetForegroundWindow();
+        delegate void mouseInputDelegate(long x, long y, ulong dwFlags, ulong mouseData);
+        static mouseInputDelegate mouseInput;
 
-        [DllImport("user32.dll")]
-        static extern short GetAsyncKeyState(int vKey);
-
-        [DllImport("user32.dll")]
-        static extern void GetKeyboardState(byte[] lpKeyState);
-
-        [DllImport("user32.dll")]
-        static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpKeyState, [Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)] char[] pwszBuff, int cchBuff, uint wFlags);
-        // help from https://stackoverflow.com/questions/6929275/how-to-convert-a-virtual-key-code-to-a-character-according-to-the-current-keyboa
-
-        [DllImport(tempFolder + dllName)]
-        static extern void test();
-
-        [DllImport(tempFolder + dllName)]
-        static extern void keyboardKeyPress(byte virtualKey, uint timeMs);
-
-        [DllImport(tempFolder + dllName)]
-        static extern void mouseInput(long x, long y, ulong dwFlags, ulong mouseData);
-
+        delegate void keyboardKeyPressDelegate(byte virtualKey, uint timeMs);
+        static keyboardKeyPressDelegate keyboardKeyPress;
+        
         static void IOThread()
         {
             byte[] keyState = new byte[256];
@@ -52,9 +35,9 @@ namespace AutoClicker
                 {
                     if (appForm.intervalNumericUpDown != null)
                         Thread.Sleep((int)appForm.intervalNumericUpDown.Value);
-                    if ((GetAsyncKeyState((short)KeyToScan) & 1) > 0)
+                    if ((User32.GetAsyncKeyState((short)KeyToScan) & 1) > 0)
                         suspendClickingThread = !suspendClickingThread;
-                } while (suspendClickingThread || targetProcess == null || targetProcess.MainWindowHandle != GetForegroundWindow());
+                } while (suspendClickingThread || targetProcess == null || targetProcess.MainWindowHandle != User32.GetForegroundWindow());
 
                 void createMouseEvent(MouseEvents dwFlagDown, MouseEvents dwFlagUp, uint dwData = 0)
                 {
@@ -87,10 +70,35 @@ namespace AutoClicker
             }
         }
 
+        static void ExtractEmbeddedDLL()
+        {
+            Assembly assembly = Assembly.GetCallingAssembly();
+            Stream stream = assembly.GetManifestResourceStream(dllName);
+            BinaryReader br = new BinaryReader(stream);
+
+            FileStream fs = new FileStream(Path.GetTempPath() + dllName, FileMode.OpenOrCreate);
+            BinaryWriter bw = new BinaryWriter(fs);
+            bw.Write(br.ReadBytes((int)stream.Length));
+            fs.Close();
+            br.Close();
+            bw.Close();
+        }
+
+        static void LoadDLL()
+        {
+            dllModule = Kernel32.LoadLibrary(Path.GetTempPath() + dllName);
+            IntPtr keyboardKeyPressPtr = Kernel32.GetProcAddress(dllModule, "keyboardKeyPress");
+            IntPtr mouseInputPtr = Kernel32.GetProcAddress(dllModule, "mouseInput");
+
+            mouseInput = (mouseInputDelegate)Marshal.GetDelegateForFunctionPointer(mouseInputPtr, typeof(mouseInputDelegate));
+            keyboardKeyPress = (keyboardKeyPressDelegate)Marshal.GetDelegateForFunctionPointer(keyboardKeyPressPtr, typeof(keyboardKeyPressDelegate));
+        }
+
         [STAThread]
         static void Main()
         {
             ExtractEmbeddedDLL();
+            LoadDLL();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -103,19 +111,8 @@ namespace AutoClicker
             Application.Run(appForm);
 
             clickingThread.Abort();
-        }
-
-        static void ExtractEmbeddedDLL()
-        {
-            Assembly assembly = Assembly.GetCallingAssembly();
-            Stream stream = assembly.GetManifestResourceStream(dllName);
-            BinaryReader br = new BinaryReader(stream);
-
-            FileStream fs = new FileStream(tempFolder + dllName, FileMode.OpenOrCreate);
-            BinaryWriter bw = new BinaryWriter(fs);
-            bw.Write(br.ReadBytes((int)stream.Length));
-            bw.Close();
-            fs.Close();
+            Kernel32.FreeLibrary(dllModule);
+            File.Delete(Path.GetTempPath() + dllName);
         }
     }
 }

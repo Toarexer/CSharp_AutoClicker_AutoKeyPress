@@ -22,7 +22,6 @@ C:\Visual Studio Projects\C#\AutoClicker_backup\AutoClicker\obj\x64\Debug\AutoCl
 C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\bin\x64\Debug\AutoClicker.exe.config
 C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\bin\x64\Debug\AutoClicker.exe
 C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\bin\x64\Debug\AutoClicker.pdb
-C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.csproj.AssemblyReference.cache
 C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.Properties.Resources.resources
 C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.csproj.GenerateResource.cache
 C:\GitHub\CSharp_AutoClicker_AutoKeyPress\AutoClicker\AutoClicker\obj\x64\Debug\AutoClicker.csproj.CoreCompileInputs.cache

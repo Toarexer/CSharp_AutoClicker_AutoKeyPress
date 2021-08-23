@@ -69,13 +69,14 @@ namespace AutoClicker
 
         void OnSelected(object sender, EventArgs e)
         {
-            for (int i = 0; i < processes.Length; i++)
-                if ($"{processes[i].Id}\t|    {processes[i].ProcessName}" == processListBox.SelectedItem.ToString())
-                {
-                    Program.targetProcess = processes[i];
-                    Console.WriteLine("PID: {0}\tName: {1}", Program.targetProcess.Id, Program.targetProcess.ProcessName);
-                    Close();
-                }
+            if (processListBox.SelectedItem != null)
+                for (int i = 0; i < processes.Length; i++)
+                    if ($"{processes[i].Id}\t|    {processes[i].ProcessName}" == processListBox.SelectedItem.ToString())
+                    {
+                        Program.targetProcess = processes[i];
+                        Console.WriteLine("PID: {0}\tName: {1}", Program.targetProcess.Id, Program.targetProcess.ProcessName);
+                        Close();
+                    }
         }
 
         void OnSelectedByKey(object sender, KeyEventArgs e)
